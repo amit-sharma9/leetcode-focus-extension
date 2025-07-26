@@ -1,0 +1,118 @@
+/* popup.css */
+
+/* Import Google Font for a clean, professional look */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Basic reset for html and body to ensure no default margins/paddings */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Root wrapper for the popup */
+#popup {
+  width: 280px; /* Consistent width for a compact popup */
+  padding: 18px 22px; /* Increased padding for better internal spacing */
+  background-color: #1c1c1c; /* Slightly adjusted dark background for richness */
+  color: #e0e0e0; /* Light grey text for readability against dark background */
+  font-family: 'Roboto', sans-serif; /* Professional font */
+  font-size: 14.5px; /* Slightly adjusted font size */
+  box-sizing: border-box;
+ 
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* Adjusted blur and spread, slightly less opaque shadow */
+  outline: none; /* Remove any default focus outline */
+}
+
+/* Header styling */
+#popup h1 {
+  font-size: 22px; /* Larger and more prominent header */
+  font-weight: 700; /* Bold text for emphasis */
+  color: #ffa116; /* LeetCode's signature orange/golden color */
+  margin: 0 0 20px; /* Increased bottom margin for separation */
+  text-align: center;
+  letter-spacing: 0.8px; /* Slight letter spacing for a refined look */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
+}
+
+/* Emoji in header for visual flair */
+#popup h1 .emoji {
+  font-size: 20px; /* Adjust emoji size to match header */
+  vertical-align: middle; /* Align emoji vertically with text */
+  margin-left: 8px; /* Space between text and emoji */
+}
+
+/* Styling for each toggle row */
+.toggle-row {
+  display: flex;
+  justify-content: space-between; /* Distribute items horizontally */
+  align-items: center; /* Vertically align items */
+  padding: 12px 0; /* Generous vertical padding */
+  border-top: 1px solid #2f2f2f; /* Darker separator for subtle division */
+}
+
+/* Remove top border for the first toggle row */
+.toggle-row:first-of-type {
+  border-top: none;
+}
+
+/* Switch container styling */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px; /* Wider switch for better visual presence */
+  height: 24px; /* Taller switch */
+}
+
+/* Hide the default checkbox input */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider track styling */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000000; /* Pure black when off */
+  transition: 0.3s; /* Smooth transition for state changes */
+  border-radius: 24px; /* Fully rounded track */
+}
+
+/* Slider thumb styling */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px; /* Slightly smaller than track height */
+  width: 20px; /* Slightly smaller than track width */
+  left: 2px; /* Position from left */
+  bottom: 2px; /* Position from bottom */
+  background-color: #b0b0b0; /* Light grey thumb when off for contrast */
+  transition: 0.3s; /* Smooth transition for thumb movement */
+  border-radius: 50%; /* Perfect circle for the thumb */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); /* Subtle shadow for thumb */
+}
+
+/* Checked (ON) state for the slider */
+input:checked + .slider {
+  background-color: #ffa116; /* LeetCode orange/golden when on */
+}
+
+/* Checked (ON) state for the slider thumb */
+input:checked + .slider:before {
+  transform: translateX(20px); /* Move thumb to the right */
+  background-color: #000000; /* Pure black thumb when on */
+}
+
+/* Round styling for slider (redundant but kept for clarity) */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leetcode Focus Mode Controls</title>
+    <link rel="stylesheet" href="popup.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="popup" role="dialog" aria-labelledby="popupTitle" aria-describedby="popupDescription">
+      <h1 id="popupTitle">Leetcode Focus Mode</h1>
+      <p id="popupDescription">Customize your coding experience.</p>
+
+      <section class="toggle-section">
+        <div class="toggle-row">
+          <span>Hide Difficulty Tags</span>
+          <label class="switch">
+            <input type="checkbox" id="difficultyToggle" aria-label="Toggle Difficulty Tags" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <span>Hide Acceptance Rate</span>
+          <label class="switch">
+            <input type="checkbox" id="acceptanceToggle" aria-label="Toggle Acceptance Rate" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </section>
+
+      
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
