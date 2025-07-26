@@ -1,43 +1,15 @@
-// 2️⃣ Apply or remove hides based on flags
-function applySettings({ hideDifficulty, hideAcceptance }) {
-  if (hideDifficulty) {
-    hidedifficulty();
-  } else {
-    // reload page or implement showDifficulty() if you want revert in-live
-    showDifficulty();
-  }
-  if (hideAcceptance) {
-    hideAcceptanceRate();
-  } else {
-    showAcceptanceRate();
-  }
-}
+// ————————————————————————————
+// 1️⃣ Global state for toggles
+// ————————————————————————————
+let hideDiff = true;
+let hideAccept = true;
 
-// MutationObserver setup
-// Fetch user preferences from storage
-// 3️⃣ Initial load: read storage and apply immediately
-chrome.storage.sync.get(
-  { hideDifficulty: true, hideAcceptance: true },
-  (settings) => {
-    applySettings(settings);
-    // 4️⃣ Observe for dynamic changes
-    const observer = new MutationObserver(() => applySettings(settings));
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
-);
 
-// 5️⃣ Live toggle: listen for messages from popup.js
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === "TOGGLE_METADATA") {
-    applySettings({
-      hideDifficulty: message.hideDifficulty,
-      hideAcceptance: message.hideAcceptance,
-    });
-  }
-});
-// 💡 This function hides difficulty tags
+// ————————————————————————————
+// 2️⃣ Core hide/show functions (unchanged)
+// ————————————————————————————
 function hidedifficulty() {
-  console.log("🔍 Running hidedifficulty...");
+  
 
   const classparts = [
     "text-difficulty-easy",
@@ -58,6 +30,22 @@ function hidedifficulty() {
   });
 
   return somethingHidden;
+}
+
+function showDifficulty() {
+  const classparts = [
+    "text-difficulty-easy",
+    "text-difficulty-medium",
+    "text-difficulty-hard",
+    "text-sd-easy",
+    "text-sd-medium",
+    "text-sd-hard",
+  ];
+  classparts.forEach((classname) => {
+    document
+      .querySelectorAll(`[class*="${classname}"]`)
+      .forEach((el) => (el.style.display = ""));
+  });
 }
 
 function hideAcceptanceRate() {
@@ -87,25 +75,6 @@ function hideAcceptanceRate() {
   return hidden;
 }
 
-//TO Reappear everything when toggle goes off
-// 💡 This function shows difficulty tags again
-function showDifficulty() {
-  const classparts = [
-    "text-difficulty-easy",
-    "text-difficulty-medium",
-    "text-difficulty-hard",
-    "text-sd-easy",
-    "text-sd-medium",
-    "text-sd-hard",
-  ];
-  classparts.forEach((classname) => {
-    document
-      .querySelectorAll(`[class*="${classname}"]`)
-      .forEach((el) => (el.style.display = ""));
-  });
-}
-
-// 💡 This function shows acceptance metadata again
 function showAcceptanceRate() {
   // show labeled blocks
   document.querySelectorAll("div.flex.items-center.gap-2").forEach((block) => {
@@ -124,3 +93,54 @@ function showAcceptanceRate() {
     }
   });
 }
+
+
+// ————————————————————————————
+// 3️⃣ Apply current flags
+// ————————————————————————————
+function applySettings() {
+  if (hideDiff) hidedifficulty();
+  else showDifficulty();
+
+  if (hideAccept) hideAcceptanceRate();
+  else showAcceptanceRate();
+}
+
+
+// ————————————————————————————
+// 4️⃣ Observer that always reads globals
+// ————————————————————————————
+const observer = new MutationObserver(applySettings);
+observer.observe(document.body, { childList: true, subtree: true });
+
+
+
+
+// ————————————————————————————
+// 5️⃣ Initial load: read storage into globals, then apply
+// ————————————————————————————
+chrome.storage.sync.get(
+  { hideDifficulty: true, hideAcceptance: true },
+  (settings) => {
+    hideDiff   = settings.hideDifficulty;
+    hideAccept = settings.hideAcceptance;
+    applySettings();
+  }
+);
+
+
+
+// ————————————————————————————
+// 6️⃣ Live toggle: update globals on message and re‑apply
+// ————————————————————————————
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === "TOGGLE_METADATA") {
+    hideDiff   = message.hideDifficulty;
+    hideAccept = message.hideAcceptance;
+    applySettings();
+  }
+});
+
+
+
+
